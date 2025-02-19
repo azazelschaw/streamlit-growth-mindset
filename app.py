@@ -2,10 +2,28 @@ import streamlit as st
 import pandas as pd
 import os
 from io import BytesIO
+import base64
 
 #set up our app
 st.set_page_config(page_title="Data Sweeper", layout ='wide')
-st.title("Data Sweeper")
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+image_base64 = get_base64_image("Meer.jpg") 
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="data:image/jpg;base64,{image_base64}" style="border-radius: 50%; width: 320px; height: 300px;">
+    </div>
+    
+    <h1 style="text-align: center; font-size: 50px; font-family: 'Poiret One'; color: #white;">
+        Data Sweeper by Meer
+    </h1>
+    """,
+    unsafe_allow_html=True
+)
+
 st.write("Transform your files from CSV to XLSX and Vise Versa formats with built-in data cleaning and visualization")
 
 uploaded_files = st.file_uploader ("Upload your (CSV or Excel);", type=["csv","xlsx"], accept_multiple_files=True)
